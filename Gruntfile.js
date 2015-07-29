@@ -11,7 +11,7 @@ module.exports = function(grunt) {
     var taskRegister = {
         concat: {
             js: {
-                src: ['src/app/**/*.js'],
+                src: ['src/**/*.js'],
                 dest: 'build/js/app.js',
             },
         },
@@ -36,7 +36,7 @@ module.exports = function(grunt) {
                 livereload: true,
             },
             js: {
-                files: ['src/app/**/*.js'],
+                files: ['src/**/*.js'],
                 tasks: ['concat:js']
             },
             css: {
