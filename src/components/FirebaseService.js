@@ -1,25 +1,50 @@
 ;(function() {
+	'use strict';
 	
-	function firebaseService($q, FBURL, $firebaseAuth) {
+	function firebaseService($location, FBURL, $firebaseAuth, User) {
 		var ref = new Firebase(FBURL);
 		var auth = $firebaseAuth(ref);
-		var deferred = $q.defer();
+
+		this.isLoggedIn = function() {
+            return ref.getAuth();
+        };
+
+        this.logout = function() {
+        	ref.unauth();
+        	$location.path('/login');
+        };
 
 		this.googleAuth = function() {
-			auth.$authWithOAuthPopup("google").then(function(payload) {
-				console.log(payload);
-			}).catch(function(err) {
-				console.log(err);
+			var login = auth.$authWithOAuthPopup("google", {
+				scope: [
+					'https://www.googleapis.com/auth/calendar',
+					'https://www.googleapis.com/auth/calendar.readonly'
+				] 
 			});
+
+			login.then(function(payload) {
+				User.name = payload.google.displayName;
+				User.email = payload.google.email;
+				User.profileImg = payload.google.profileImageURL;
+				User.accessToken = payload.google.accessToken;
+				return payload;
+			});
+
+			login.catch(function(err) {
+				return err;
+			});
+
+			return login;
 		};
 	}
 
 	angular.module('CalendarApp')
 
 	.service('firebaseService', [
-	    '$q', 
+	    '$location', 
         'FBURL',
         '$firebaseAuth',
+        'User',
 		firebaseService
 	]);
 })();
