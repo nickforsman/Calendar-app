@@ -1,0 +1,78 @@
+body {
+  font-family: RobotoDraft, Roboto, 'Helvetica Neue', sans-serif;
+}
+.content {
+  width: 960px;
+  margin: 40px auto;
+}
+form {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px #ddd solid;
+  border-radius: 4px;
+}
+form .form-heading {
+  color: #333333;
+  background: #f5f5f5;
+  padding: 10px;
+  border-bottom: 1px #ddd solid;
+}
+form fieldset.form-body {
+  padding: 10px;
+  border: none;
+}
+form fieldset.form-body .label-group {
+  margin: 10px;
+}
+form fieldset.form-body .label-group label {
+  display: inline-block;
+  width: 100%;
+  margin-bottom: 5px;
+  font-size: 18px;
+}
+form fieldset.form-body .label-group input {
+  display: block;
+  width: 100%;
+  padding: 7px 3px;
+  border: 1px #ccc solid;
+  border-radius: 4px;
+}
+form fieldset.form-body .button-group {
+  margin: 0 0 10px 10px;
+}
+form fieldset.form-body .button-group .login-btn {
+  color: #ffffff;
+  background: #29b6f6;
+  border: 1px #0288d1 solid;
+}
+form fieldset.form-body .social-media-button {
+  display: inline-block;
+}
+form fieldset.form-body .social-media-button .google-btn {
+  display: inline-block;
+  color: #ffffff;
+  font-weight: bold;
+  background: #de4c34;
+  height: 37px;
+  width: 120px;
+  border: none;
+  padding: 5px;
+  cursor: pointer;
+}
+form fieldset.form-body .social-media-button .google-btn:hover {
+  background: #ce3e26;
+}
+form fieldset.form-body .social-media-button span.google-icon {
+  display: inline-block;
+  float: left;
+  padding-left: 5px;
+  height: 37px;
+  width: 30px;
+  background-image: url(../img/Google-Plus-Logo-Icon-Vector-Free.jpg);
+  background-size: 80%;
+  background-position: 5px, 0, center;
+  background-repeat: no-repeat;
+  background-color: #ce3e26;
+  text-align: center;
+  border-right: 1px solid rgba(155, 38, 23, 0.46);
+}
