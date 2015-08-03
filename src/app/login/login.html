@@ -1,21 +1,21 @@
-<form method="post" id="loginForm" class="login-form">
-	<div class="form-heading">
-		<legend>Login Form</legend>
-	</div>
-	<fieldset class="form-body">
-		<div class="label-group">
-			<label for="">Email:</label>
-			<input type="email" disabled>
+<div class="layout-login">
+	<form method="post" id="loginForm" class="login-form">
+		<div class="form-heading">
+			<legend>Login Form</legend>
 		</div>
-		<div class="label-group">
-			<label for="">Password:</label>
-			<input type="password" disabled>
-		</div>
-		<div class="button-group">
-			<input class="btn login-btn" type="submit" value="Login" disabled>
-		</div>
-		<div class="social-media-button">
-			<span class="google-icon"></span><button class="btn google-btn" ng-click="login.login()">GOOGLE+</button>		
-		</div>
-	</fieldset>
-</form>
+		<fieldset class="form-body">
+			<div class="label-group">
+				<label for="">Email:</label>
+				<input type="email" disabled>
+			</div>
+			<div class="label-group">
+				<label for="">Password:</label>
+				<input type="password" disabled>
+			</div>
+			<div class="button-group">
+				<input class="btn login-btn" type="submit" value="Login" disabled="disabled">
+				<button class="btn google-btn" ng-click="login.login()">Google+</button>	
+			</div>
+		</fieldset>
+	</form>	
+</div>

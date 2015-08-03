@@ -1,32 +1,45 @@
-<form method="post">
-	<div>
-		<label>Title</label>
-		<input type="text" ng-model="event.title">
-		{{ event.testing }}
-	</div>
-	<div>
-		<label>Start Date</label>
-		<input type="date" ng-model="event.startDate">		
-		<label>End Date</label>
-		<input type="date" ng-model="event.endDate">		
-	</div>	
-	<div>
-		<label>Start Time</label>
-		<input type="time" ng-model="event.startTime">		
-		<label>End Time</label>
-		<input type="time" ng-model="event.endTime">		
-	</div>
-	<div>
-		<label>Antendees</label>
-		<input type="email" ng-model="event.attendee.email">
-		<button ng-click="event.addAttendee()">Add</button>
-		<pre ng-if="event.attendees" ng-repeat="attendee in event.attendees">
-			{{ attendee.email }}
-		</pre>
-	</div>
-	<div>
-		<label>Description</label>
-		<textarea ng-model="event.description" id="" cols="30" rows="10"></textarea>	
-	</div>
-	<button ng-click="event.createEvent()">Create</button>
-</form>
+<div ng-include="'partials/navigation.html'"></div>
+<div class="layout-create">
+	<form method="post">
+		<div class="form-heading">
+			<legend>Event Manager</legend>
+		</div>
+		<fieldset class="form-body">
+			<div class="label-group">
+				<label>Title</label>
+				<input type="text" ng-model="event.title">
+			</div>
+			<div class="label-group">
+				<label>Address</label>
+				<input type="text" ng-model="event.address">
+			</div>
+			<div class="label-group">
+				<label>City</label>
+				<input type="text" ng-model="event.city">
+			</div>
+			<div class="label-group">
+				<label>Start Date</label>
+				<input type="date" ng-model="event.startDate">			
+			</div>	
+			<div class="label-group">
+				<label>End Date</label>
+				<input type="date" ng-model="event.endDate">	
+			</div>
+			<div class="label-group">
+				<label>Antendees</label>
+				<input type="email" ng-model="event.attendee.email">
+				<button class="btn-add" ng-click="event.addAttendee(event.attendee.email)">Add</button>
+				<ol ng-if="event.attendees">
+					<li ng-repeat="attendee in event.attendees">
+						{{ attendee.email }} <button ng-click="event.removeAttendee(attendee.email)">X</button>
+					</li>
+				</ol>
+			</div>
+			<div class="label-group">
+				<label>Description</label>
+				<textarea ng-model="event.description"></textarea>	
+			</div>
+			<button ng-click="event.createEvent()">Create</button>
+		</fieldset>	
+	</form>
+</div>
