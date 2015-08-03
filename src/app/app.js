@@ -6,6 +6,14 @@
 	])
 
 	.run(function($rootScope, $location, firebaseService) {
+		$rootScope.logout = function() {
+			firebaseService.logout();
+		};
+
+		$rootScope.isActiveNav = function(path) {
+			return path == $location.path();
+		};
+
 		// e: event, n: next, c: current
 		$rootScope.$on('$routeChangeStart', function(e, n, c) {
 			if ( ! firebaseService.isLoggedIn()) {
