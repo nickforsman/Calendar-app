@@ -1,18 +1,18 @@
 ;(function() {
 	'use strict';
 
-	var LoginController = function(firebaseService, $location, $rootScope) {
+	var LoginController = function(firebaseService, $location, $exceptionHandler) {
 		var vm = this;
 
 		vm.login = function() {
 			firebaseService.googleAuth().then(function(payload) {
 				$location.path('/calendar');
-			}, function(error) {
-				console.log(error);
+			}, function(err) {
+				$exceptionHandler(err);
 			});
 		};
-	};
 
+	};
 
 	angular.module('CalendarApp')
 
@@ -27,7 +27,7 @@
 	.controller('LoginController', [
 		'firebaseService',
 		'$location',
-		'$rootScope',
+		'$exceptionHandler',
         LoginController
     ]);
 })();
