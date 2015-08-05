@@ -3,9 +3,10 @@
 	angular.module('CalendarApp', [
 		'ngRoute',
         'firebase',
+        'ui.calendar'
 	])
 
-	.run(function($rootScope, $location, firebaseService) {
+	.run(function($rootScope, $location, firebaseService, User) {
 		$rootScope.logout = function() {
 			firebaseService.logout();
 		};
@@ -18,7 +19,13 @@
 		$rootScope.$on('$routeChangeStart', function(e, n, c) {
 			if ( ! firebaseService.isLoggedIn()) {
 				$location.path('/login');
-			} 
+			} else {
+				var payload = firebaseService.isLoggedIn();
+				User.name = payload.google.displayName;
+				User.email = payload.google.email;
+				User.profileImg = payload.google.profileImageURL;
+				User.accessToken = payload.google.accessToken;
+			}
 		});	
 	})
 
@@ -29,59 +36,42 @@
 ;(function() {
 	'use strict';
 
-	var Calendar = function() {
-
-		var directive = {
-			controller: controller,
-			controllerAs: 'calendar-widget',
-			link: link,
-			restrict: 'E',
-			scope: {
-				date: '=',
-			},
-			templateUrl: 'src/app/calendar/partial/calendar-template.html'
-		};
-
-		function controller() {}
-
-		function link(scope, element, attributes, controller) {}
-
-		return directive;
-	};
-
-	angular.module('CalendarApp')
-		.directive('calendar', Calendar);
-})();
-;(function() {
-	'use strict';
-
 	var calendarFactory = function($http, User) {
 
         function list() {
-            $http.get('https://www.googleapis.com/calendar/v3/calendars/primary/events', { 
+            var promise = $http.get('https://www.googleapis.com/calendar/v3/calendars/primary/events', { 
                 headers : {
                     'Authorization': 'Bearer ' + User.accessToken 
                 } 
-            })
-            .success(function(data) {
-                console.log(data);
-            }).error(function(error) {
-                console.log(error);
             });
+
+            promise.success(function(data) {
+                return data;
+            });
+
+            promise.error(function(error) {
+                return error;
+            });
+
+            return promise;
         }
 
         function create(event) {
-            $http.post('https://www.googleapis.com/calendar/v3/calendars/primary/events', event, {
+            var promise = $http.post('https://www.googleapis.com/calendar/v3/calendars/primary/events', event, {
                 headers : {
                     'Authorization': 'Bearer ' + User.accessToken 
                 }
-            })
-            .success(function(payload) {
-                console.log(payload);
-            })
-            .error(function(err) {
-                console.log(err);
             });
+            
+            promise.success(function(payload) {
+                return payload;
+            });
+
+            promise.error(function(err) {
+                return err;
+            });
+
+            return promise;
         }
         
         var calendar = {
@@ -103,18 +93,31 @@
 ;(function() {
 	'use strict';
 
-	var CalendarController = function(firebaseService, calendarFactory, User) {
+	var CalendarController = function(calendarFactory, $exceptionHandler) {
 		var vm = this;
+		vm.eventSources = [[]];
 
 		vm.init = function() {
 			vm.list();
-			vm.date = Date.now();
 		};
 		
 		vm.list = function() {
-			calendarFactory.list();
+			calendarFactory.list().success(function(data) {
+				data.items.forEach(function(item) {
+					if (item.status !== 'cancelled') {
+						vm.eventSources[0].push({
+							title: item.summary,
+							start: item.start.dateTime || item.start.date,
+							end: item.end.dateTime || item.end.date,
+							stick: true,
+						});	
+					}
+				});
+			}).error(function(err) {
+				$exceptionHandler(err);
+			});
 		};
-
+		
 		vm.init();
 	};
 
@@ -130,19 +133,23 @@
 	})
 
 	.controller('CalendarController', [
-		'firebaseService',
 		'calendarFactory',
-		'User',
+		'$exceptionHandler',
 		CalendarController
 	]);
 })();
 ;(function() {
 	'use strict';
 
-	var CreateController = function($scope, firebaseService, calendarFactory) {
+	var CreateController = function(calendarFactory, $exceptionHandler, flashService) {
 		var vm = this;
 		vm.attendees = [];
-		
+		vm.allDay = false;
+		vm.notification = {
+			error: '',
+			success: ''
+		};
+
 		vm.addAttendee = function(email) {
 			if (email) {
 				vm.attendees.push({'email': email});
@@ -165,28 +172,42 @@
 				'summary': vm.title,
 				  'location': vm.address + ', ' + vm.city,
 				  'description': vm.description,
-				  'start': {
-				    'date': new Date(vm.startDate).toISOString().substring(0, 10),
-				  },
-				  'end': {
-				    'date': new Date(vm.endDate).toISOString().substring(0, 10),
-				  },
 				  'attendees': vm.attendees,
 				  'reminders': {
-				    'useDefault': false,
+    				'useDefault': false,
 				    'overrides': [
 				      {'method': 'email', 'minutes': 24 * 60},
 				      {'method': 'sms', 'minutes': 10}
 				    ]
 				  }
 			};
+			if (vm.allDay) {
+				calendarEvent['start'] = {'date': new Date(vm.startDate).toISOString().substring(0, 10)};
+				calendarEvent['end'] = {'date': new Date(vm.endDate).toISOString().substring(0, 10)};
+			} else {
+				calendarEvent['start'] = {'dateTime': new Date(vm.startTime).toISOString()};
+				calendarEvent['end'] = {'dateTime': new Date(vm.endTime).toISOString()};
+			}
 			console.log(calendarEvent);
-			//calendarFactory.create(calendarEvent);
+			calendarFactory.create(calendarEvent).success(function(data) {
+				handleSuccess(data);
+			}).error(function(err) {
+				handleError(err);
+			});
 		};
 
-		vm.logout = function() {
-			firebaseService.logout();
-		};
+		function handleError(err) {
+			$exceptionHandler(err);
+			// clears flash message if session has a flash set
+			vm.notification.error = "";
+			vm.notification.error = flashService.show(err);
+		}
+
+		function handleSuccess(data) {
+			// clears flash message if session has a flash set
+			vm.notification.success = "";
+			vm.notification.success = flashService.show("Your event was created successfully with a title: " + data.summary);
+		}
 
 	};
 
@@ -202,27 +223,27 @@
 	})
 
 	.controller('CreateController', [
-		'$scope',
-		'firebaseService',
 		'calendarFactory',
+		'$exceptionHandler',
+		'flashService',
 		CreateController
 	]);
 })();
 ;(function() {
 	'use strict';
 
-	var LoginController = function(firebaseService, $location, $rootScope) {
+	var LoginController = function(firebaseService, $location, $exceptionHandler) {
 		var vm = this;
 
 		vm.login = function() {
 			firebaseService.googleAuth().then(function(payload) {
 				$location.path('/calendar');
-			}, function(error) {
-				console.log(error);
+			}, function(err) {
+				$exceptionHandler(err);
 			});
 		};
-	};
 
+	};
 
 	angular.module('CalendarApp')
 
@@ -237,14 +258,14 @@
 	.controller('LoginController', [
 		'firebaseService',
 		'$location',
-		'$rootScope',
+		'$exceptionHandler',
         LoginController
     ]);
 })();
 ;(function() {
 	'use strict';
 	
-	function firebaseService($location, FBURL, $firebaseAuth, User) {
+	function firebaseService($location, FBURL, $firebaseAuth) {
 		var ref = new Firebase(FBURL);
 		var auth = $firebaseAuth(ref);
 
@@ -266,10 +287,6 @@
 			});
 
 			login.then(function(payload) {
-				User.name = payload.google.displayName;
-				User.email = payload.google.email;
-				User.profileImg = payload.google.profileImageURL;
-				User.accessToken = payload.google.accessToken;
 				return payload;
 			});
 
@@ -287,7 +304,6 @@
 	    '$location', 
         'FBURL',
         '$firebaseAuth',
-        'User',
 		firebaseService
 	]);
 })();
@@ -298,7 +314,25 @@
 	.constant('FBURL', 'https://sweltering-torch-161.firebaseio.com');
 
 })();
+;(function() {
+	'use strict';
+	
+	function flashService() {
+		var show = function(message) {
+			return message;
+		};
 
+		return {
+			show: show,
+		};
+	}
+
+	angular.module('CalendarApp')
+
+	.factory('flashService', [
+		flashService
+	]);
+})();
 ;(function() {
 	'use strict';
 	

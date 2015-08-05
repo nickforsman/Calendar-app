@@ -1,7 +1,7 @@
 ;(function() {
 	'use strict';
 	
-	function firebaseService($location, FBURL, $firebaseAuth, User) {
+	function firebaseService($location, FBURL, $firebaseAuth) {
 		var ref = new Firebase(FBURL);
 		var auth = $firebaseAuth(ref);
 
@@ -23,10 +23,6 @@
 			});
 
 			login.then(function(payload) {
-				User.name = payload.google.displayName;
-				User.email = payload.google.email;
-				User.profileImg = payload.google.profileImageURL;
-				User.accessToken = payload.google.accessToken;
 				return payload;
 			});
 
@@ -44,7 +40,6 @@
 	    '$location', 
         'FBURL',
         '$firebaseAuth',
-        'User',
 		firebaseService
 	]);
 })();
