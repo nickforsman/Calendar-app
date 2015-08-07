@@ -4,7 +4,6 @@
 	var calendarFactory = function($http, User) {
 
         function list() {
-
             var promise = $http.get('https://www.googleapis.com/calendar/v3/calendars/primary/events', { 
                 headers : {
                     'Authorization': 'Bearer ' + User.accessToken 
