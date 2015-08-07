@@ -1,0 +1,308 @@
+.basic-form {
+  width: 45%;
+  box-sizing: border-box;
+  border: 1px #ddd solid;
+  border-radius: 4px;
+  margin-top: 30px;
+}
+.form-header {
+  color: #333333;
+  background: #f5f5f5;
+  padding: 10px;
+  border-bottom: 1px #ddd solid;
+}
+.clearfix {
+  content: "";
+  display: table;
+  clear: both;
+}
+.button {
+  margin-top: 5px;
+  display: inline-block;
+  width: 80px;
+  padding: 5px;
+  font-size: 1em;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.basic-input {
+  display: block;
+  width: 100%;
+  padding: 7px 3px;
+  border: 1px #ccc solid;
+  border-radius: 4px;
+}
+.input-label {
+  display: inline-block;
+  width: 100%;
+  margin-bottom: 5px;
+}
+body {
+  font-family: RobotoDraft, Roboto, 'Helvetica Neue', sans-serif;
+}
+.content {
+  width: 960px;
+  margin: 0 auto;
+}
+nav.nav-top {
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: block;
+  height: 20px;
+  padding: 20px 0;
+  background: #f8f8f8;
+  border: 1px #eaeaea solid;
+  border-radius: 3px;
+}
+nav.nav-top ul {
+  list-style: none;
+  display: block;
+}
+nav.nav-top ul li {
+  display: block;
+  position: relative;
+  float: left;
+  margin: 0 10px;
+}
+nav.nav-top ul li:first-child {
+  margin-left: 20px;
+}
+nav.nav-top ul li:last-child {
+  margin-right: 20px;
+}
+nav.nav-top ul li a {
+  text-decoration: none;
+  color: #555;
+  font-size: 1.1em;
+}
+nav.nav-top ul li a:hover {
+  text-decoration: underline;
+}
+nav.nav-top ul li a.active {
+  text-decoration: underline;
+}
+ul.nav-group-left {
+  float: left;
+}
+ul.nav-group-left:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+ul.nav-group-right {
+  float: right;
+}
+ul.nav-group-right:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+.logout {
+  cursor: pointer;
+}
+.layout-login form {
+  width: 45%;
+  box-sizing: border-box;
+  border: 1px #ddd solid;
+  border-radius: 4px;
+  margin-top: 30px;
+}
+.layout-login form .form-heading {
+  color: #333333;
+  background: #f5f5f5;
+  padding: 10px;
+  border-bottom: 1px #ddd solid;
+}
+.layout-login form fieldset.form-body {
+  padding: 10px;
+  border: none;
+}
+.layout-login form fieldset.form-body .label-group {
+  margin: 10px;
+}
+.layout-login form fieldset.form-body .label-group label {
+  display: inline-block;
+  width: 100%;
+  margin-bottom: 5px;
+}
+.layout-login form fieldset.form-body .label-group input {
+  display: block;
+  width: 100%;
+  padding: 7px 3px;
+  border: 1px #ccc solid;
+  border-radius: 4px;
+}
+.layout-login form fieldset.form-body .button-group {
+  margin: 0 0 10px 10px;
+}
+.layout-login form fieldset.form-body .button-group .login-btn {
+  margin-top: 5px;
+  display: inline-block;
+  width: 80px;
+  padding: 5px;
+  font-size: 1em;
+  border-radius: 4px;
+  cursor: pointer;
+  color: #ffffff;
+  background: #29b6f6;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+.layout-login form fieldset.form-body .button-group .login-btn[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.layout-login form fieldset.form-body .google-btn {
+  margin-top: 5px;
+  display: inline-block;
+  width: 80px;
+  padding: 5px;
+  font-size: 1em;
+  border-radius: 4px;
+  cursor: pointer;
+  color: #ffffff;
+  background: #de4c34;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+.layout-login form fieldset.form-body .google-btn:hover {
+  background: #ce3e26;
+}
+.layout-create form {
+  width: 45%;
+  box-sizing: border-box;
+  border: 1px #ddd solid;
+  border-radius: 4px;
+  margin-top: 30px;
+}
+.layout-create form .form-heading {
+  color: #333333;
+  background: #f5f5f5;
+  padding: 10px;
+  border-bottom: 1px #ddd solid;
+}
+.layout-create fieldset.form-body {
+  padding: 10px;
+  border: none;
+}
+.layout-create fieldset.form-body .label-group {
+  margin: 15px;
+}
+.layout-create fieldset.form-body .label-group label {
+  display: inline-block;
+  width: 100%;
+  margin-bottom: 5px;
+}
+.layout-create fieldset.form-body .label-group input {
+  display: block;
+  width: 100%;
+  padding: 7px 3px;
+  border: 1px #ccc solid;
+  border-radius: 4px;
+}
+.layout-create fieldset.form-body .label-group input + p {
+  margin-top: 5px;
+  color: red;
+}
+.layout-create fieldset.form-body .label-group input.ng-invalid.ng-dirty {
+  border: 1px solid red;
+}
+.layout-create fieldset.form-body .label-group input.ng-invalid.ng-dirty:focus {
+  box-shadow: 0 0 5px rgba(180, 0, 0, 0.5);
+  outline: none;
+}
+.layout-create fieldset.form-body .label-group textarea {
+  padding: 7px 3px;
+  border: 1px #ccc solid;
+  border-radius: 4px;
+  height: 170px;
+  width: 100%;
+  overflow: auto;
+  resize: vertical;
+}
+.layout-create fieldset.form-body .label-checkbox {
+  display: block;
+  margin: 20px 15px;
+}
+.layout-create fieldset.form-body .label-checkbox label {
+  display: inline-block;
+  margin-top: 7px;
+}
+.layout-create fieldset.form-body .btn-group {
+  margin: 5px 15px 0;
+}
+.layout-create fieldset.form-body .btn-add {
+  margin-top: 5px;
+  display: inline-block;
+  width: 80px;
+  padding: 5px;
+  font-size: 1em;
+  border-radius: 4px;
+  cursor: pointer;
+  color: #666666;
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+.layout-create fieldset.form-body .btn-add:hover {
+  background: #f5f5f5;
+}
+.layout-create fieldset.form-body .btn-create {
+  margin-top: 5px;
+  display: inline-block;
+  width: 80px;
+  padding: 5px;
+  font-size: 1em;
+  border-radius: 4px;
+  cursor: pointer;
+  color: #666666;
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+.layout-create fieldset.form-body .btn-create:hover {
+  background: #f5f5f5;
+}
+.layout-create fieldset.form-body .btn-create[disabled] {
+  background: #f5f5f5;
+  opacity: 0.8;
+  cursor: not-allowed;
+}
+.layout-create ol {
+  margin: 5px 0;
+}
+.layout-create ol li {
+  width: 100%;
+}
+.loading {
+  position: fixed;
+  z-index: 999;
+  height: 5em;
+  width: 5em;
+  overflow: show;
+  margin: auto;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: url(../img/ajax-loader.gif);
+  background-repeat: no-repeat;
+}
+.layout-calendar {
+  width: 100%;
+  display: inline-block;
+  margin-top: 20px;
+}
+.flash {
+  padding: 15px;
+  margin: 20px 0;
+  border-radius: 4px;
+  color: #fff;
+}
+.flash strong {
+  font-weight: bold;
+}
+.success-flash {
+  background: #3fad46;
+}
+.error-flash {
+  background: #d9534f;
+}

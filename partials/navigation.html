@@ -1,0 +1,9 @@
+<nav class="nav-top">
+	<ul class="nav-group-right">
+		<li><a class="logout" ng-click="logout()">Logout</a></li>
+	</ul>
+	<ul class="nav-group-left">
+		<li><a ng-class="{active: isActiveNav('/create')}" ng-href="#/create">Create Event</a></li>
+		<li><a ng-class="{active: isActiveNav('/calendar')}" ng-href="#/calendar">Calendar</a></li>
+	</ul>
+</nav>
