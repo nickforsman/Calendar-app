@@ -41,7 +41,6 @@
 	var calendarFactory = function($http, User) {
 
         function list() {
-
             var promise = $http.get('https://www.googleapis.com/calendar/v3/calendars/primary/events', { 
                 headers : {
                     'Authorization': 'Bearer ' + User.accessToken 
@@ -171,7 +170,6 @@
 
 		vm.createEvent = function() {
 			vm.loading = true;
-
 			var calendarEvent = {
 				  'summary': vm.title,
 				  'location': vm.address + ', ' + vm.city,
@@ -185,7 +183,7 @@
 				    ]
 				  }
 			};
-
+			console.log(calendarEvent);
 			if (vm.allDay) {
 				calendarEvent['start'] = {'date': new Date(vm.startDate).toISOString().substring(0, 10)};
 				calendarEvent['end'] = {'date': new Date(vm.endDate).toISOString().substring(0, 10)};
@@ -193,7 +191,6 @@
 				calendarEvent['start'] = {'dateTime': new Date(vm.startTime).toISOString()};
 				calendarEvent['end'] = {'dateTime': new Date(vm.endTime).toISOString()};
 			}
-
 			calendarFactory.create(calendarEvent)
 				.success(function(data) {
 					handleSuccess(data);
@@ -203,6 +200,18 @@
 				})
 				.finally(function() {
 					vm.loading = false;
+					vm.title = "";
+					vm.address = "";
+					vm.city = "";
+					vm.startDate = "";
+					vm.endDate = "";
+					vm.startTime = "";
+					vm.endTime = "";
+					vm.attendee.email = "";
+					vm.description = "";
+					vm.attendees = [];
+					vm.allDay = false;
+					vm.form.$setPristine();
 				});
 		};
 
