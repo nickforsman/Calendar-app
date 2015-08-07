@@ -6,11 +6,17 @@
         'ui.calendar'
 	])
 
-	.run(function($rootScope, $location, firebaseService, User) {
+	.run(['$rootScope', '$location', 'firebaseService', 'User', runblock])
+
+	.config(function($routeProvider) {
+		$routeProvider.otherwise({ redirectTo: '/login' });
+	});
+
+	function runblock($rootScope, $location, firebaseService, User) {
 		$rootScope.logout = function() {
 			firebaseService.logout();
 		};
-
+		
 		$rootScope.isActiveNav = function(path) {
 			return path == $location.path();
 		};
@@ -27,9 +33,5 @@
 				User.accessToken = payload.google.accessToken;
 			}
 		});	
-	})
-
-	.config(function($routeProvider) {
-		$routeProvider.otherwise({ redirectTo: '/login' });
-	});
+	}
 })();
