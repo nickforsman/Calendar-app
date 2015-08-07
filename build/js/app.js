@@ -6,11 +6,17 @@
         'ui.calendar'
 	])
 
-	.run(function($rootScope, $location, firebaseService, User) {
+	.run(['$rootScope', '$location', 'firebaseService', 'User', runblock])
+
+	.config(function($routeProvider) {
+		$routeProvider.otherwise({ redirectTo: '/login' });
+	});
+
+	function runblock($rootScope, $location, firebaseService, User) {
 		$rootScope.logout = function() {
 			firebaseService.logout();
 		};
-
+		
 		$rootScope.isActiveNav = function(path) {
 			return path == $location.path();
 		};
@@ -27,11 +33,7 @@
 				User.accessToken = payload.google.accessToken;
 			}
 		});	
-	})
-
-	.config(function($routeProvider) {
-		$routeProvider.otherwise({ redirectTo: '/login' });
-	});
+	}
 })();
 ;(function() {
 	'use strict';
@@ -39,6 +41,7 @@
 	var calendarFactory = function($http, User) {
 
         function list() {
+
             var promise = $http.get('https://www.googleapis.com/calendar/v3/calendars/primary/events', { 
                 headers : {
                     'Authorization': 'Bearer ' + User.accessToken 
@@ -76,7 +79,7 @@
         
         var calendar = {
             list: list,
-            create: create
+            create: create,
         };
 
         return calendar;
@@ -120,7 +123,6 @@
 		
 		vm.init();
 	};
-
 
 	angular.module('CalendarApp')
 
@@ -168,8 +170,10 @@
 		};
 
 		vm.createEvent = function() {
+			vm.loading = true;
+
 			var calendarEvent = {
-				'summary': vm.title,
+				  'summary': vm.title,
 				  'location': vm.address + ', ' + vm.city,
 				  'description': vm.description,
 				  'attendees': vm.attendees,
@@ -181,6 +185,7 @@
 				    ]
 				  }
 			};
+
 			if (vm.allDay) {
 				calendarEvent['start'] = {'date': new Date(vm.startDate).toISOString().substring(0, 10)};
 				calendarEvent['end'] = {'date': new Date(vm.endDate).toISOString().substring(0, 10)};
@@ -188,12 +193,17 @@
 				calendarEvent['start'] = {'dateTime': new Date(vm.startTime).toISOString()};
 				calendarEvent['end'] = {'dateTime': new Date(vm.endTime).toISOString()};
 			}
-			console.log(calendarEvent);
-			calendarFactory.create(calendarEvent).success(function(data) {
-				handleSuccess(data);
-			}).error(function(err) {
-				handleError(err);
-			});
+
+			calendarFactory.create(calendarEvent)
+				.success(function(data) {
+					handleSuccess(data);
+				})
+				.error(function(err) {
+					handleError(err);
+				})
+				.finally(function() {
+					vm.loading = false;
+				});
 		};
 
 		function handleError(err) {
