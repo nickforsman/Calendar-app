@@ -1,4 +1,5 @@
 <div ng-include="'partials/navigation.html'"></div>
+<div class="loading" ng-if="event.loading"></div>
 <div class="layout-create">
 	<div class="flash error-flash" ng-if="event.notification.error">
 		<p>The Server responded with an error:
@@ -8,7 +9,7 @@
 	<div class="flash success-flash" ng-if="event.notification.success">
 		<p>{{ event.notification.success }}</p>
 	</div>
-	<form method="post" name="event.form" ng-submit="event.createEvent()" novalidate>
+	<form method="post" id="eventForm" name="event.form" ng-submit="event.createEvent()" novalidate>
 		<div class="form-heading">
 			<legend>Event Manager</legend>
 		</div>
@@ -72,7 +73,9 @@
 				<label>Description</label>
 				<textarea ng-model="event.description"></textarea>	
 			</div>
-			<button ng-disabled="event.form.$invalid" type="submit">Create</button>
+			<div class="btn-group">
+				<button class="btn-create" ng-disabled="event.form.$invalid" type="submit">Create</button>
+			</div>
 		</fieldset>	
 	</form>
 </div>
