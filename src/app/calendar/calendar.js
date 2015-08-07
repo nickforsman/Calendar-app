@@ -29,7 +29,6 @@
 		vm.init();
 	};
 
-
 	angular.module('CalendarApp')
 
 	.config(function($routeProvider) {
