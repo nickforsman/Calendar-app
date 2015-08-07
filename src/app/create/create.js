@@ -28,8 +28,10 @@
 		};
 
 		vm.createEvent = function() {
+			vm.loading = true;
+
 			var calendarEvent = {
-				'summary': vm.title,
+				  'summary': vm.title,
 				  'location': vm.address + ', ' + vm.city,
 				  'description': vm.description,
 				  'attendees': vm.attendees,
@@ -41,6 +43,7 @@
 				    ]
 				  }
 			};
+
 			if (vm.allDay) {
 				calendarEvent['start'] = {'date': new Date(vm.startDate).toISOString().substring(0, 10)};
 				calendarEvent['end'] = {'date': new Date(vm.endDate).toISOString().substring(0, 10)};
@@ -48,12 +51,17 @@
 				calendarEvent['start'] = {'dateTime': new Date(vm.startTime).toISOString()};
 				calendarEvent['end'] = {'dateTime': new Date(vm.endTime).toISOString()};
 			}
-			console.log(calendarEvent);
-			calendarFactory.create(calendarEvent).success(function(data) {
-				handleSuccess(data);
-			}).error(function(err) {
-				handleError(err);
-			});
+
+			calendarFactory.create(calendarEvent)
+				.success(function(data) {
+					handleSuccess(data);
+				})
+				.error(function(err) {
+					handleError(err);
+				})
+				.finally(function() {
+					vm.loading = false;
+				});
 		};
 
 		function handleError(err) {
