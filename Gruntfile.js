@@ -36,10 +36,11 @@ module.exports = function(grunt) {
             vendor: {
                 files: {
                     'build/js/vendor.min.js': [
-                        'bower_components/angular/angular.js', 
-                        'bower_components/angular-route/angular-route.js', 
+                        'bower_components/angular/angular.min.js',
+                        'bower_components/angular-route/angular-route.min.js',
                         'bower_components/jquery/dist/jquery.min.js', 
                         'bower_components/moment/min/moment.min.js', 
+                        'bower_components/moment-timezone/builds/moment-timezone-with-data-2010-2020.min.js', 
                         'bower_components/angular-ui-calendar/src/calendar.js', 
                         'bower_components/fullcalendar/dist/fullcalendar.js', 
                         'bower_components/fullcalendar/dist/gcal.js'
