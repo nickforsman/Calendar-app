@@ -283,7 +283,7 @@ ul.nav-group-right:after {
   left: 0;
   bottom: 0;
   right: 0;
-  background: url(../img/ajax-loader.gif);
+  background: url(/img/ajax-loader.gif);
   background-repeat: no-repeat;
 }
 .layout-calendar {
