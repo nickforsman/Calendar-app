@@ -16,6 +16,7 @@
     "angular": "~1.4.3",
     "angular-mocks": "~1.4.3",
     "angular-route": "~1.4.3",
-    "angular-ui-calendar": "latest"
+    "angular-ui-calendar": "latest",
+    "moment-timezone": "~0.4.0"
   }
 }

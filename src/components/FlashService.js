@@ -1,6 +1,14 @@
+/**
+ * FlashService
+ * @namespace Factories
+ */
 ;(function() {
 	'use strict';
 	
+	/**
+	 * Shows a flash message
+	 * @return {Object}
+	 */
 	function flashService() {
 		var show = function(message) {
 			return message;
