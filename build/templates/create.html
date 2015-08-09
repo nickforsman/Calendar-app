@@ -1,0 +1,81 @@
+<div ng-include="'/templates/partials/navigation.html'"></div>
+<div class="loading" ng-if="event.loading"></div>
+<div class="layout-create">
+	<div class="flash error-flash" ng-if="event.notification.error">
+		<p>The Server responded with an error:
+		<strong>{{ event.notification.error.error.message }}</strong></p>
+		<p>This is an error on our part.</p>
+	</div>
+	<div class="flash success-flash" ng-if="event.notification.success">
+		<p>{{ event.notification.success }}</p>
+	</div>
+	<form method="post" id="eventForm" name="event.form" ng-submit="event.createEvent()" novalidate>
+		<div class="form-heading">
+			<legend>Event Manager</legend>
+		</div>
+		<fieldset class="form-body">
+			<div class="label-group">
+				<label>Title</label>
+				<input name="inputTitle" placeholder="Event title" type="text" ng-model="event.title" required>
+				<p ng-show="event.form.inputTitle.$dirty && event.form.inputTitle.$error.required">Title is required</p>
+			</div>
+			<div class="label-group">
+				<label>Address</label>
+				<input name="inputAddress" placeholder="Location address" type="text" ng-model="event.address" required>
+				<p ng-show="event.form.inputAddress.$dirty && event.form.inputAddress.$error.required">Address is required</p>
+			</div>
+			<div class="label-group">
+				<label>City</label>
+				<input name="inputCity" placeholder="City" type="text" ng-model="event.city" required>
+				<p ng-show="event.form.inputCity.$dirty && event.form.inputCity.$error.required">City is required</p>
+			</div>
+			<div class="label-checkbox">
+				<p>Event type:</p>
+				<label>
+					<input ng-model="event.allDay" type="checkbox"> All day event
+				</label>
+			</div>	
+			<div id="allDayEvent" ng-if="event.allDay">
+				<div class="label-group">
+					<label>Start Date</label>
+					<input name="inputStartDate" type="date" ng-model="event.startDate" required>	
+					<p ng-show="event.form.inputStartDate.$dirty && event.form.inputStartDate.$error.required">Specify a start date</p>	
+				</div>	
+				<div class="label-group">
+					<label>End Date</label>
+					<input name="inputEndDate" type="date" ng-model="event.endDate" required>	
+					<p ng-show="event.form.inputEndDate.$dirty && event.form.inputEndDate.$error.required">Specify an end date</p>	
+				</div>	
+			</div>
+			<div id="timeEvent" ng-if="!event.allDay">
+				<div class="label-group">
+					<label>From</label>
+					<input name="inputFrom" type="datetime-local" ng-model="event.startTime" required>
+					<p ng-show="event.form.inputFrom.$dirty && event.form.inputFrom.$error.required">Specify a start time date</p>	
+				</div>	
+				<div class="label-group">
+					<label>To</label>
+					<input name="inputTo" type="datetime-local" ng-model="event.endTime" required>
+					<p ng-show="event.form.inputTo.$dirty && event.form.inputTo.$error.required">Specify an end time date</p>
+				</div>	
+			</div>			
+			<div class="label-group">
+				<label>Antendees</label>
+				<input placeholder="Guest email address" type="email" ng-model="event.attendee.email">
+				<button type="button" class="btn-add" ng-click="event.addAttendee(event.attendee.email)">Add</button>
+				<ol ng-if="event.attendees">
+					<li ng-repeat="attendee in event.attendees">
+						{{ attendee.email }} <button ng-click="event.removeAttendee(attendee.email)">X</button>
+					</li>
+				</ol>
+			</div>
+			<div class="label-group">
+				<label>Description</label>
+				<textarea ng-model="event.description"></textarea>	
+			</div>
+			<div class="btn-group">
+				<button class="btn-create" ng-disabled="event.form.$invalid" type="submit">Create</button>
+			</div>
+		</fieldset>	
+	</form>
+</div>
