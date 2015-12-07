@@ -2,6 +2,6 @@
 	'use strict';
 	
 	angular.module('CalendarApp')
-	.constant('FBURL', 'https://sweltering-torch-161.firebaseio.com');
+	.constant('FBURL', 'firebase_URL_comers_here');
 
 })();
